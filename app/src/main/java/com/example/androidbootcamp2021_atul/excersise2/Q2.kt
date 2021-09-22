@@ -8,7 +8,7 @@ package com.example.androidbootcamp2021_atul.excersise2
 // F) Concate 3 String
 
 // Interface
-interface PerformActions {
+interface PerformOperations {
     // Below all are the abstract methods
     // Which need to be overridden by
     // some class
@@ -23,7 +23,7 @@ interface PerformActions {
     fun concatThreeStrings(str1: String, str2: String, str3: String)
 }
 
-class Q2: PerformActions {
+class Q2: PerformOperations {
     override fun addInteger(x: Int, y: Int) {
         println("Sum of Int = ${x+y}")
     }

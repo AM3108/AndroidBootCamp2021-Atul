@@ -16,22 +16,22 @@ interface BankDetails {
 
 }
 
-class SBI: BankDetails {
+class NB: BankDetails {
     override val ROI: Double
         get() = 10.0
     override val bankName: String
-        get() = "SBI"
+        get() = "National Bank"
     override val bankCity: String
-        get() = "New Delhi"
+        get() = "Kalyan"
 }
 
-class BOI: BankDetails {
+class PNB: BankDetails {
     override val ROI: Double
         get() = 15.0
     override val bankName: String
-        get() = "BOI"
+        get() = "PNB"
     override val bankCity: String
-        get() = "Delhi"
+        get() = "Kalyan(W)"
 }
 
 class ICICI: BankDetails {
@@ -40,5 +40,5 @@ class ICICI: BankDetails {
     override val bankName: String
         get() = "ICICI"
     override val bankCity: String
-        get() = "Noida"
+        get() = "Kalyan(E)"
 }

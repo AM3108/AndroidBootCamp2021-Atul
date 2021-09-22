@@ -5,10 +5,10 @@ package com.example.androidbootcamp2021_atul.excersise2
 // new value. Print the list value.
 
 class Q6 {
-    val mList = mutableListOf<Int>(1, 8, 3, 4)
+    val mList = mutableListOf<Int>(2, 4, 7, 12, 18)
 
     fun replaceSecondItem() {
-        mList[1]  = 2
+        mList[2]  = 6
         printList()
     }
 
