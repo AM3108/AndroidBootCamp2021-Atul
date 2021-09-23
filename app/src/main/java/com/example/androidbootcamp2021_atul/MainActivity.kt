@@ -24,11 +24,11 @@ fun main() {
     // F) Concate 3 String
     println("\nQ2")
     val ob2 = Q2()
-    ob2.addInteger(127, 345)
-    ob2.addDouble(23.6, 8.9)
-    ob2.multiplyInt(25, 8)
-    ob2.concatString("TO ", "THE ")
-    ob2.concatThreeStrings("TO ", "THE ", "NEW ")
+    ob2.Operations(127, 345)
+    ob2.Operations(23.6, 8.9)
+    ob2.Operations(25, 8)
+    ob2.Operations("TO ", "THE ")
+    ob2.Operations("TO ", "THE ", "NEW ")
 
     // Q3 Create 3 sub class of bank SBI,BOI,ICICI all 4 should have method called getDetails which provide
     // there specific details like rateofinterest etc,print details of every bank.
@@ -45,8 +45,8 @@ fun main() {
     println("\nQ4")
     val ob6 = Q4()
     val ob7 = Q4()
-    ob6.addBook("Intro to Android", 1, "Atul")
-    ob7.addBook("Intro to Flutter", 2, "Pawan")
+    ob6.addBook("Intro to Android", 1, "AM")
+    ob7.addBook("Intro to Flutter", 2, "PS")
     ob6.getBookDetails()
     ob7.getBookDetails()
 
