@@ -36,7 +36,7 @@ class Q2{
         println("Sum of Int = ${x+y}")
     }
 
-    fun Operations(x: Double, y: Double) {
+    fun Operations(x: Long, y: Long) {
         println("Sum of Double = ${x+y}")
     }
 

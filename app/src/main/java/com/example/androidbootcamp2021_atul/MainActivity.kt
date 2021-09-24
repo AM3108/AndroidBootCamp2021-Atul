@@ -24,8 +24,8 @@ fun main() {
     // F) Concate 3 String
     println("\nQ2")
     val ob2 = Q2()
-    ob2.Operations(127, 345)
-    ob2.Operations(23.6, 8.9)
+    ob2.Operations(127L, 345)
+    ob2.Operations(2356867393, 8868686)
     ob2.Operations(25, 8)
     ob2.Operations("TO ", "THE ")
     ob2.Operations("TO ", "THE ", "NEW ")

@@ -8,6 +8,7 @@ class Q1 {
         const val fname = "Pawan"
         const val lname = "Shadija"
         const val age = 25
+
     }
 
     var fname: String? = null
@@ -25,6 +26,7 @@ class Q1 {
     // init will initialise details
     // then we will print it
     fun printInitDetails() {
+        fname = "Atul"
         println("Value initialised from init block")
         println("First name: $fname")
         println("Last name: $lname")
