@@ -1,7 +1,7 @@
 package com.example.androidbootcamp2021_atul.excersise1
 
 fun checkNonPair() {
-    val str = "ATULTTN"
+    val str = "ATULTTNM"
     var i = 0
     println("Non pair elements are: ")
     while (i < str.length-1) {
