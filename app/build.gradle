@@ -25,16 +25,19 @@ android {
         }
     }
 
-//    productFlavors{
-//
-//        QA{
-//            applicationId "com.android.productflavour.qa"
-//        }
-//
-//        PROD{
-//            applicationId "com.android.productflavors.prod"
-//        }
-//    }
+    productFlavors{
+
+        QA{
+            applicationId "com.android.productflavour.qa"
+        }
+
+        PROD{
+            applicationId "com.android.productflavors.prod"
+        }
+        DEV{
+            applicationId "com.android.productflavors.dev"
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
