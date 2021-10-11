@@ -1,15 +1,11 @@
 package com.example.androidbootcamp2021_atul
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.widget.Button
 import android.widget.Toast
-import com.example.androidbootcamp2021_atul.sqlitedemo.SQLiteDatabaseManager
+import com.example.androidbootcamp2021_atul.roomdemo.RoomDatabaseBuilder
 
 import java.util.concurrent.Executors
 
@@ -25,46 +21,47 @@ class MainActivity : AppCompatActivity() {
         sqliteDemoBtn.setOnClickListener {
             startActivity(
                 Intent(this, DatabaseActivity::class.java).putExtra(
-                    BUTTON_CLICKED_KEY,
-                    SQLITE_DEMO_BTN
+                    MainActivity.BUTTON_CLICKED_KEY,
+                    MainActivity.ROOM_DEMO_BTN
                 )
             )
         }
 
         addDummySqliteDemoBtn.setOnClickListener {
-            insertDataInDBUsingSQLite()
+            insertDataInDBUsingRoom()
             Toast.makeText(this, "Data added successfully", Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun insertDataInDBUsingSQLite() {
+    private fun insertDataInDBUsingRoom() {
+        val database = RoomDatabaseBuilder.getInstance(this)
 
-        val databaseManager =
-            SQLiteDatabaseManager(this)
+        Executors.newSingleThreadExecutor().execute {
+            database.employeeDao().insertEmployeeDetails(
+                EmployeeDataClass(
+                    name = "Mayank",
+                    contact = "9912345678",
+                    address = "New Delhi"
+                )
+            )
+            database.employeeDao().insertEmployeeDetails(
+                EmployeeDataClass(
+                    name = "Rohit",
+                    contact = "123456789",
+                    address = "Delhi"
+                )
+            )
+            database.employeeDao().insertEmployeeDetails(
+                EmployeeDataClass(
+                    name = "Sahil",
+                    contact = "3264464789",
+                    address = "Noida"
+                )
+            )
 
-        // insert data in DB
-        databaseManager.insertValue(
-            EmployeeDataClass(
-                name = "Mayank",
-                contact = "9912345678",
-                address = "New Delhi"
-            )
-        )
-        databaseManager.insertValue(
-            EmployeeDataClass(
-                name = "Mayank",
-                contact = "9912345678",
-                address = "New Delhi"
-            )
-        )
-        databaseManager.insertValue(
-            EmployeeDataClass(
-                name = "Mayank",
-                contact = "9912345678",
-                address = "New Delhi"
-            )
-        )
+        }
     }
+
 
 
 //    private fun insertDataInDBUsingSQLite(key: String, value: String) {

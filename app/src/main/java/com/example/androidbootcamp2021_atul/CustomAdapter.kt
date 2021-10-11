@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.example.androidbootcamp2021_atul.sqlitedemo.SQLiteDatabaseManager
-
+import com.example.androidbootcamp2021.roomdemo.AppRoomDatabase
+import com.example.androidbootcamp2021_atul.roomdemo.RoomDatabaseBuilder
 import java.util.concurrent.Executors
 
 class CustomAdapter(
@@ -17,9 +17,7 @@ class CustomAdapter(
     private val employeeData: ArrayList<EmployeeDataClass>
 ) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
-    private val databaseManager =
-        SQLiteDatabaseManager(context)
-
+    private val databaseRoom: AppRoomDatabase = RoomDatabaseBuilder.getInstance(context)
 
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -69,9 +67,7 @@ class CustomAdapter(
         holder.addressTextView.text = empAddress
 
         holder.deleteDataImgBtn.setOnClickListener {
-            if (DatabaseActivity.BUTTON_CLICKED == MainActivity.SQLITE_DEMO_BTN) {
-                deleteDataFromDB(empId, position)
-            }
+                deleteDataFromDBUsingRoom(empId, position)
         }
 
         holder.editDataImgBtn.setOnClickListener {
@@ -97,7 +93,20 @@ class CustomAdapter(
     }
 
     // this will remove data from DB
-
+    private fun deleteDataFromDBUsingRoom(empId: Int, position: Int) {
+        Executors.newSingleThreadExecutor().execute {
+            databaseRoom.employeeDao().deleteEmployeeDetails(EmployeeDataClass(id = empId))
+        }
+        Toast.makeText(
+            context,
+            "Employee with Id: $empId is deleted",
+            Toast.LENGTH_SHORT
+        ).show()
+        // update the UI
+        // it will remove data from list
+        // which is passed to this adapter
+        deleteItem(position)
+    }
 
     private fun updateUI(
         holder: ViewHolder,
@@ -125,42 +134,17 @@ class CustomAdapter(
         position: Int,
         holder: ViewHolder
     ) {
-        if (DatabaseActivity.BUTTON_CLICKED == MainActivity.SQLITE_DEMO_BTN) {
-            // Update details using SQLite Manager
-            val numOfRowUpdated =
-                databaseManager.updateAnEmployeeData(
-                    empId,
-                    updatedName,
-                    updatedContact,
-                    updatedAddress
-                )
-            if (numOfRowUpdated > 0) {
-
-                // Hide view
-                holder.empDetailsEditConstraintLayout.visibility = View.GONE
-
-                // Show view where user can view details
-                holder.empDetailsConstraintLayout.visibility = View.VISIBLE
-
-                Toast.makeText(
-                    context,
-                    "Employee with Id: $empId is updated",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                setItem(position, empId, updatedName, updatedContact, updatedAddress)
-
-            } else {
-                Toast.makeText(
-                    context,
-                    "There is a problem while updating the data",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
-        } else {
             // Update detail using Room Dao
-
+            Executors.newSingleThreadExecutor().execute {
+                databaseRoom.employeeDao().updateEmployeeDetails(
+                    EmployeeDataClass(
+                        id = empId,
+                        name = updatedName,
+                        contact = updatedContact,
+                        address = updatedAddress
+                    )
+                )
+            }
 
             // Hide view
             holder.empDetailsEditConstraintLayout.visibility = View.GONE
@@ -175,30 +159,6 @@ class CustomAdapter(
             ).show()
 
             setItem(position, empId, updatedName, updatedContact, updatedAddress)
-        }
-
-    }
-
-    private fun deleteDataFromDB(empId: Int, position: Int) {
-        // this will remove data from DB
-        val numOfRowDeleted = databaseManager.deleteAnEmployeeData(empId)
-        if (numOfRowDeleted > 0) {
-            Toast.makeText(
-                context,
-                "Employee with Id: $empId is deleted",
-                Toast.LENGTH_SHORT
-            ).show()
-            // update the UI
-            // it will remove data from list
-            // which is passed to this adapter
-            deleteItem(position)
-        } else {
-            Toast.makeText(
-                context,
-                "There is a problem while deleting the data",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
     }
 
     // Update the item in list

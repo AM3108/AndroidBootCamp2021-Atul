@@ -4,7 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.androidbootcamp2021_atul.sqlitedemo.SQLiteDatabaseManager
+import com.example.androidbootcamp2021_atul.roomdemo.RoomDatabaseBuilder
+import java.util.concurrent.Executors
 
 class DatabaseActivity : AppCompatActivity() {
 
@@ -30,26 +31,32 @@ class DatabaseActivity : AppCompatActivity() {
 
         val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recyclerView.layoutManager = linearLayoutManager
-
-        if (BUTTON_CLICKED == MainActivity.SQLITE_DEMO_BTN) {
-            setupListFromSQLite()
-            recyclerView.adapter = customAdapter
-            customAdapter.notifyDataSetChanged()
-        }
-
+        setupListFromRoom()
     }
 
 
 
-    private fun setupListFromSQLite() {
-        val databaseManager =
-            SQLiteDatabaseManager(this)
+    private fun setupListFromRoom() {
+        val roomDatabaseBuilder = RoomDatabaseBuilder.getInstance(this)
+        var employeeList: List<EmployeeDataClass>
 
-        // get data from Database
-        val employeeList = databaseManager.getAllEmpDataFromSQLiteDB()
+        Executors.newSingleThreadExecutor().execute {
+            // get data from Database
+            employeeList = roomDatabaseBuilder.employeeDao().getAllEmployeeDetails()
 
-        customAdapter =
-            CustomAdapter(this, employeeList)
+            recyclerView.apply {
+                // Stuff that updates the UI
+                runOnUiThread {
+                    customAdapter =
+                        CustomAdapter(
+                            this@DatabaseActivity,
+                            employeeList as ArrayList<EmployeeDataClass>
+                        )
+                    recyclerView.adapter = customAdapter
+                    customAdapter.notifyDataSetChanged()
+                }
+            }
+        }
     }
 
     companion object {
