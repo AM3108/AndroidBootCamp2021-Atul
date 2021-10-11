@@ -39,23 +39,23 @@ class MainActivity : AppCompatActivity() {
         Executors.newSingleThreadExecutor().execute {
             database.employeeDao().insertEmployeeDetails(
                 EmployeeDataClass(
-                    name = "Mayank",
-                    contact = "9912345678",
-                    address = "New Delhi"
+                    name = "NIHAL",
+                    contact = "6666666666",
+                    address = "TITWALA"
                 )
             )
             database.employeeDao().insertEmployeeDetails(
                 EmployeeDataClass(
-                    name = "Rohit",
-                    contact = "123456789",
-                    address = "Delhi"
+                    name = "ANUJ",
+                    contact = "1234567890",
+                    address = "UK"
                 )
             )
             database.employeeDao().insertEmployeeDetails(
                 EmployeeDataClass(
-                    name = "Sahil",
-                    contact = "3264464789",
-                    address = "Noida"
+                    name = "HARSH",
+                    contact = "0987654321",
+                    address = "BANDRA"
                 )
             )
 
