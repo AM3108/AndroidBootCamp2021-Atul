@@ -61,28 +61,8 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
-
-
-
-//    private fun insertDataInDBUsingSQLite(key: String, value: String) {
-//
-//        val databaseManager =
-//            SQLiteDatabaseManager(this)
-//
-//        // insert data in DB
-//        databaseManager.insertValue(
-//            EmployeeDataClass(
-//                name = value,
-//                contact = key,
-//                address = "New Delhi"
-//            )
-//        )
-//    }
-
     companion object {
         const val BUTTON_CLICKED_KEY = "BUTTON_CLICKED"
-        const val SQLITE_DEMO_BTN = "SQLITE_DEMO_BTN"
         const val ROOM_DEMO_BTN = "ROOM_DEMO_BTN"
-        const val PERMISSIONS_REQUEST_READ_CONTACTS = 100
     }
 }
