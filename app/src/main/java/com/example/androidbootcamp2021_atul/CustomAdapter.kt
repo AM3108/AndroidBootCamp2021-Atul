@@ -69,9 +69,7 @@ class CustomAdapter(
         holder.addressTextView.text = empAddress
 
         holder.deleteDataImgBtn.setOnClickListener {
-            if (DatabaseActivity.BUTTON_CLICKED == MainActivity.SQLITE_DEMO_BTN) {
                 deleteDataFromDB(empId, position)
-            }
         }
 
         holder.editDataImgBtn.setOnClickListener {
@@ -125,7 +123,7 @@ class CustomAdapter(
         position: Int,
         holder: ViewHolder
     ) {
-        if (DatabaseActivity.BUTTON_CLICKED == MainActivity.SQLITE_DEMO_BTN) {
+
             // Update details using SQLite Manager
             val numOfRowUpdated =
                 databaseManager.updateAnEmployeeData(
@@ -157,24 +155,6 @@ class CustomAdapter(
                     Toast.LENGTH_SHORT
                 )
                     .show()
-            }
-        } else {
-            // Update detail using Room Dao
-
-
-            // Hide view
-            holder.empDetailsEditConstraintLayout.visibility = View.GONE
-
-            // Show view where user can view details
-            holder.empDetailsConstraintLayout.visibility = View.VISIBLE
-
-            Toast.makeText(
-                context,
-                "Employee with Id: $empId is updated",
-                Toast.LENGTH_SHORT
-            ).show()
-
-            setItem(position, empId, updatedName, updatedContact, updatedAddress)
         }
 
     }

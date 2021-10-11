@@ -30,13 +30,9 @@ class DatabaseActivity : AppCompatActivity() {
 
         val linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recyclerView.layoutManager = linearLayoutManager
-
-        if (BUTTON_CLICKED == MainActivity.SQLITE_DEMO_BTN) {
             setupListFromSQLite()
             recyclerView.adapter = customAdapter
             customAdapter.notifyDataSetChanged()
-        }
-
     }
 
 

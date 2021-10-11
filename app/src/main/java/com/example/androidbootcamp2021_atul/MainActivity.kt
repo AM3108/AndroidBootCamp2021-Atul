@@ -45,47 +45,28 @@ class MainActivity : AppCompatActivity() {
         // insert data in DB
         databaseManager.insertValue(
             EmployeeDataClass(
-                name = "Mayank",
-                contact = "9912345678",
-                address = "New Delhi"
+                name = "ATUL",
+                contact = "9999999999",
+                address = "KALYAN"
             )
         )
         databaseManager.insertValue(
             EmployeeDataClass(
-                name = "Mayank",
-                contact = "9912345678",
-                address = "New Delhi"
+                name = "PAWAN",
+                contact = "8888888888",
+                address = "ULHASNAGAR"
             )
         )
         databaseManager.insertValue(
             EmployeeDataClass(
-                name = "Mayank",
-                contact = "9912345678",
-                address = "New Delhi"
+                name = "Saurav",
+                contact = "7777777777",
+                address = "BORIVALI"
             )
         )
     }
-
-
-//    private fun insertDataInDBUsingSQLite(key: String, value: String) {
-//
-//        val databaseManager =
-//            SQLiteDatabaseManager(this)
-//
-//        // insert data in DB
-//        databaseManager.insertValue(
-//            EmployeeDataClass(
-//                name = value,
-//                contact = key,
-//                address = "New Delhi"
-//            )
-//        )
-//    }
-
     companion object {
         const val BUTTON_CLICKED_KEY = "BUTTON_CLICKED"
         const val SQLITE_DEMO_BTN = "SQLITE_DEMO_BTN"
-        const val ROOM_DEMO_BTN = "ROOM_DEMO_BTN"
-        const val PERMISSIONS_REQUEST_READ_CONTACTS = 100
     }
 }
