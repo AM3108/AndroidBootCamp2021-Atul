@@ -89,10 +89,13 @@ class MainActivity : AppCompatActivity() {
 //        progressBar.visibility = View.VISIBLE
 //
         ViewList.add(CustomAdapter.LOADING)
-        customAdapter.notifyDataSetChanged()
+        customAdapter.notifyItemInserted(ViewList.size-1)
+        val oldItem = ViewList.size
         //Delays for 2 sec and then fetches data
         val handler = Handler()
         handler.postDelayed({
+            ViewList.remove(CustomAdapter.LOADING)
+            customAdapter.notifyItemRemoved(ViewList.size-1)
             for (i in 1..5) {
                 when {
                 i % 2 == 0 -> {
@@ -105,8 +108,8 @@ class MainActivity : AppCompatActivity() {
                     ViewList.add(CustomAdapter.TEXT_IMAGE_RECYCLER_VIEW)
                 }
             }
-                ViewList.remove(CustomAdapter.LOADING)
-                customAdapter.notifyDataSetChanged()
+
+                customAdapter.notifyItemRangeInserted(oldItem, ViewList.size)
 
                 //progressBar.visibility = View.GONE
             }

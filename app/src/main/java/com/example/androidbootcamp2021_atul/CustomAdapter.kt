@@ -81,8 +81,7 @@ class CustomAdapter(private val context: Context, private val ViewList: List<Int
                 viewHolderImage.cardTextView.text = context.getString(R.string.imagetextview)
             }
             LOADING -> {
-                val viewHolderLoader = holder as ViewHolderLoader
-                viewHolderLoader.progressBarView.visibility = View.VISIBLE
+
             }
         }
 
