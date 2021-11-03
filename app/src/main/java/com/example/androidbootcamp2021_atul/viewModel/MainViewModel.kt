@@ -1,19 +1,40 @@
 package com.example.androidbootcamp2021_atul.viewModel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.androidbootcamp2021_atul.R
-import com.example.androidbootcamp2021_atul.model.Items
+import com.example.androidbootcamp2021_atul.repository.MainRepository
+import com.example.androidbootcamp2021_atul.Model.Model
+import kotlinx.coroutines.*
 
-class MainViewModel() : ViewModel() {
-    // ArrayList of class ItemsViewModel
-    val data = ArrayList<Items>()
-    // This loop will create 20 Views containing
-    // the image with the count of view
-    fun fetch(){
-    for (i in 1..200) {
-        data.add(Items(R.drawable.ic_launcher_foreground, "Item $i"))
-    }}
+class MainViewModel constructor(private val mainRepository: MainRepository) : ViewModel() {
 
+    val errorMessage = MutableLiveData<String>()
+    val dataList = MutableLiveData<List<Model>>()
+    var job: Job? = null
+    val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        onError("Exception handled: ${throwable.localizedMessage}")
+    }
+  //Getting data from API
+    fun getAllMovies() {
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = mainRepository.getAllData()
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    dataList.postValue(response.body())
+                } else {
+                    onError("Error : ${response.message()} ")
+                }
+            }
+        }
 
+    }
+
+    private fun onError(message: String) {
+        errorMessage.value = message
+    }
+    override fun onCleared() {
+        super.onCleared()
+        job?.cancel()
+    }
 
 }

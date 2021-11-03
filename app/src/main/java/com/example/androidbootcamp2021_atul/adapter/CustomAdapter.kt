@@ -3,47 +3,46 @@ package com.example.androidbootcamp2021_atul.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.androidbootcamp2021_atul.Model.Model
 import com.example.androidbootcamp2021_atul.R
-import com.example.androidbootcamp2021_atul.model.Items
 
 
-class CustomAdapter(private val mList: List<Items>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class CustomAdapter() : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
-    // create new views
+
+    var dataList = mutableListOf<Model>()
+
+    //Setting Data
+    fun setData(data: List<Model>) {
+        this.dataList = data.toMutableList()
+        notifyDataSetChanged()
+    }
+
+    /**
+     * Provide a reference to the type of views that you are using
+     * (custom ViewHolder).
+     */
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val postTitleTextView: TextView = view.findViewById(R.id.postTitle_TV)
+        val postBodyTextView: TextView = view.findViewById(R.id.post_Msg_TV)
+    }
+
+    // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        // inflates the card_view_design view
-        // that is used to hold list item
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.card_view_design, parent, false)
+
+        // Create a new view, which defines the UI of the list item
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.row_layout, parent, false)
         return ViewHolder(view)
     }
 
-    // binds the list items to a view
+    override fun getItemCount() = dataList.size
+
+    // Replace the contents of a view (invoked by the layout manager)
+    // Used to replace/update views at a specific position
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        val ItemsViewModel = mList[position]
-
-        // sets the image to the imageview from our itemHolder class
-        holder.imageView.setImageResource(ItemsViewModel.image)
-
-        // sets the text to the textview from our itemHolder class
-        holder.textView.text = ItemsViewModel.text
-
-    }
-
-    // return the number of the items in the list
-    override fun getItemCount(): Int {
-        return mList.size
-    }
-
-    // Holds the views for adding it to image and text
-    class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.imageview)
-        val textView: TextView = itemView.findViewById(R.id.textView)
-
-
+        holder.postTitleTextView.text = dataList[position].postTitle
+        holder.postBodyTextView.text = dataList[position].postBody
     }
 }

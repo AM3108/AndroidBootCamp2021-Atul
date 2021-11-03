@@ -1,105 +1,51 @@
 package com.example.androidbootcamp2021_atul
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidbootcamp2021_atul.adapter.CustomAdapter
+import com.example.androidbootcamp2021_atul.repository.MainRepository
+import com.example.androidbootcamp2021_atul.retrofit.RetrofitService
 import com.example.androidbootcamp2021_atul.viewModel.MainViewModel
-
+import com.example.androidbootcamp2021_atul.viewModel.MyViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var mUserMainViewModel: MainViewModel
-    lateinit var linearLayoutManager: LinearLayoutManager
+    lateinit var viewModel: MainViewModel
+    private val adapter = CustomAdapter()
     lateinit var recyclerView: RecyclerView
-    var lastItem:Int?=null
-    val tag = "Atul"
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        recyclerView = findViewById(R.id.post_details_RV)
 
-        // getting the recyclerview by its id
-        recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
+        val retrofitService = RetrofitService.getInstance()
+        val mainRepository = MainRepository(retrofitService)
 
-        linearLayoutManager = LinearLayoutManager(this)
-
-        // this creates a vertical layout Manager
-        recyclerView.layoutManager = linearLayoutManager
-//
-////         ArrayList of class ItemsViewModel
-//        val data = ArrayList<Items>()
-//
-//        // This loop will create 20 Views containing
-//        // the image with the count of view
-//        for (i in 1..100) {
-//            data.add(Items(R.drawable.ic_launcher_foreground, "Item " + i))
-//        }
-
-//       val receivePosition:Int = getPosition()
-//        Log.e(tag,"$receivePosition")
-        mUserMainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-
-        mUserMainViewModel.fetch()
-//
-//        // This will pass the ArrayList to our Adapter
-//        val adapter = CustomAdapter(mUserViewModel.data)
-        val adapter = CustomAdapter(mUserMainViewModel.data)
-        // Setting the Adapter with the recyclerview
-
-        val ab = getItem()
-        Log.e(tag,"onCreate$ab")
-
-        ab?.let { (recyclerView.layoutManager as LinearLayoutManager).scrollToPosition(it) }
-
+        recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
+        viewModel = ViewModelProvider(this, MyViewModelFactory(mainRepository)).get(MainViewModel::class.java)
+
+
+        //Observing livedata
+        viewModel.dataList.observe(this, {
+            adapter.setData(it)
+        })
+
+        viewModel.errorMessage.observe(this, {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        })
+
+        viewModel.getAllMovies()
+
+
 
     }
-
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu_item, menu)
-        return true
-    }
-
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.item){
-            val intent = Intent(this, ViewActivity::class.java)
-            startActivity(intent)
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-
-    override fun onPause(){
-        super.onPause()
-        val item = getItem()
-        Log.e(tag,"onPause$item")
-
-    }
-
-    private fun getItem(): Int? {
-        lastItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
-//        Log.e(tag,"onPause$lastItem")
-        return lastItem
-    }
-
-
-//    override fun onResume() {
-//        super.onResume()
-//        val ab = getItem()
-//      // recyclerView.layoutManager?.scrollToPosition(lastItem)
-//        Log.e(tag,"onResume$ab")
-//       ab?.let { (recyclerView.layoutManager as LinearLayoutManager).scrollToPosition(it) }
-//    }
 }
