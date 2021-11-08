@@ -1,9 +1,11 @@
 package com.example.androidbootcamp2021_atul
 
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@DelicateCoroutinesApi
 fun main() {
     GlobalScope.launch {
         printFibonacciSeries(15) // print after delay
