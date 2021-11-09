@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -29,6 +31,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    // Enable data binding
+    buildFeatures {
+        dataBinding true
+    }
 }
 
 dependencies {
@@ -41,17 +47,18 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
-    // Networking
-    implementation "com.squareup.retrofit2:retrofit:2.9.0"
-    implementation "com.squareup.okhttp3:okhttp:4.9.0"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.8.1"
-    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    // Manually added libs
+    def lifecycle_version = "2.3.0"
+    // Kotlin LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    // Kotlin ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
-    //Coroutine
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
-    implementation 'com.google.code.gson:gson:2.8.6'
+    // Room DB
+    def room_version = "2.2.6"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
-    //viewModel
-    implementation "android.arch.lifecycle:extensions:1.1.1"
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
 }
